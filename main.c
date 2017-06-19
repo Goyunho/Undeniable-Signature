@@ -75,9 +75,11 @@ void key_setup() {
     do {
     printf("input prime number p : "); scanf("%d", &p);
     } while(!is_prime(p));
+
     do {
         printf("input GCD(x, p-1) x : "); scanf("%d", &alice.x);
     } while(gcd(alice.x, p-1)!=1);
+    
     printf("input g over GF(p) : "); scanf("%d", &g);
 
     y = powmod(g, alice.x, p); // make public key
