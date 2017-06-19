@@ -36,13 +36,6 @@ int powmod(int p, int n, int m) {
     return result;
 }
 
-ll ipow(int p, int n) {
-    ll result = 1;
-
-    while(n--)
-        result *= p;
-    return result;
-}
 
 int mul_inv(int a, int b) {
 	int b0 = b, t, q;
@@ -70,14 +63,14 @@ void key_setup() {
     } while(gcd(alice.x, p-1)!=1);
     printf("input g over GF(p) : "); scanf("%d", &g);
 
-    y = (ipow(g, alice.x))%p; // make public key
+    y = powmod(g, alice.x, p); // make public key
 }
 
 int signing(int m) {
     key_setup();
     printf("g : %d\n", g);
     printf("m : %d, x : %d\n", m, alice.x);
-    z = (ipow(m, alice.x))%p;
+    z = powmod(m, alice.x, p);
     printf("y : %d\n", y);
     printf("z : %d\n", z);
 
@@ -93,7 +86,6 @@ int bob_computes_c() {
     bob.b = rand()%p;
 
     printf("a: %d, b: %d\n", bob.a, bob.b);
-    // c = ((ipow(z, bob.a)%p)*(ipow(y, bob.b)%p))%p;
     c = (powmod(z, bob.a, p)*powmod(y, bob.b, p)%p);
 
     return c;
@@ -106,7 +98,7 @@ int alice_computes_d(int c) {
 
     xi = mul_inv(alice.x, p-1);
     printf("xi : %d\n", xi);
-    d = (ipow(c, xi))%p;
+    d = powmod(c, xi, p);
 
     return d;
 }
@@ -140,7 +132,6 @@ int verifying() {
 
 
 int main(int argc, char* argv[]) {
-    printf("argc : %d\n", argc);
     if(argc < 2) {
         printf("Need more message(integer)!\n");
         return 1;
