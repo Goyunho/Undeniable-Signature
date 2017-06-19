@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-// #include <math.h>
 
 
 #define ll long long
@@ -51,13 +50,31 @@ int mul_inv(int a, int b) {
 }
 
 
+int is_prime(int n) { // prime is 1, no prime is 0
+    if( n <= 1 )
+        return 0;
+         
+    if( (n&1) == 0 )
+        return (n == 2);
+         
+    for(int i=3; i*i<=n; i+=2) { 
+        if( n % i == 0) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+
 int gcd(int a, int b) {
 	return b ? gcd(b, a%b) : a;
 }
 
 
 void key_setup() {
+    do {
     printf("input prime number p : "); scanf("%d", &p);
+    } while(!is_prime(p));
     do {
         printf("input GCD(x, p-1) x : "); scanf("%d", &alice.x);
     } while(gcd(alice.x, p-1)!=1);
